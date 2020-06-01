@@ -25,7 +25,9 @@ public class Connection implements AutoCloseable{
     }
 
     public Message readMessage() throws IOException, ClassNotFoundException {
-        return (Message) input.readObject();
+
+            return (Message) input.readObject();
+
     }
 
     @Override

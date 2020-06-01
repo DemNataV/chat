@@ -18,6 +18,10 @@ public class Message implements Serializable {
         this.dateTime = LocalDateTime.now();
     }
 
+    public String getSender() {
+        return sender;
+    }
+
     @Override
     public String toString() {
         return  sender + '\'' + dateTime + '\n' + text ;
