@@ -21,11 +21,7 @@ public class Client {
         this.ip = ip;
         this.port = port;
         scanner = new Scanner(System.in);
-        try {
-            connection = new Connection(getSocket());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         executorService = Executors.newFixedThreadPool(3);
         receivedMessages = new ArrayBlockingQueue<Message>(10);
 
@@ -44,13 +40,19 @@ public class Client {
 
 
     public void start() throws Exception {
-        executorService.execute(new ReceiveTask(connection, receivedMessages));
-        executorService.execute(new OutputTask(receivedMessages));
+
         System.out.println("Ведите имя");
         String name = scanner.nextLine();
         String text;
+        try {
+            connection = new Connection(getSocket());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        sendMessage(Message.getInstance(name, " подключился"));
+        executorService.execute(new ReceiveTask(connection, receivedMessages));
+        executorService.execute(new OutputTask(receivedMessages));
         while (true) {
-            System.out.println("Введите сообщение");
             text = scanner.nextLine();
             sendMessage(
                     Message.getInstance(name, text));
@@ -58,7 +60,7 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        int port = 8099;
+        int port = 7235;
         String ip = "127.0.0.1";
         try {
             new Client(ip, port).start();

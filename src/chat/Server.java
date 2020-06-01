@@ -51,7 +51,7 @@ public class Server {
 
 
     public static void main(String[] args) {
-        int port = 8099;
+        int port = 7235;
         Server server = new Server(port);
         try {
             server.start();
